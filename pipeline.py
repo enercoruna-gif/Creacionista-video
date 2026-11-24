@@ -1,8 +1,10 @@
 import os
+import re
 import sys
 import time
 import shutil
 import subprocess
+from datetime import datetime
 from pathlib import Path
 import requests
 from playwright.sync_api import sync_playwright
@@ -16,6 +18,29 @@ ASSETS_DIR.mkdir(exist_ok=True)
 
 def load_text(path: Path) -> str:
     return path.read_text(encoding="utf-8") if path.exists() else ""
+
+
+def slugify(text: str, max_len: int = 36) -> str:
+    replacements = {
+        "á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u",
+        "à": "a", "è": "e", "ì": "i", "ò": "o", "ù": "u",
+        "ä": "a", "ë": "e", "ï": "i", "ö": "o", "ü": "u",
+        "ñ": "n", "ç": "c",
+    }
+    clean = text.lower()
+    for src, dst in replacements.items():
+        clean = clean.replace(src, dst)
+    clean = re.sub(r"[^a-z0-9]+", "-", clean).strip("-")
+    return (clean[:max_len].strip("-") or "video")
+
+
+def build_run_paths(idea: str) -> tuple[str, Path, Path]:
+    stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    slug = slugify(idea)
+    run_id = f"{stamp}_{slug}"
+    html_path = OUTPUT_DIR / f"{run_id}.html"
+    mp4_path = OUTPUT_DIR / f"{run_id}.mp4"
+    return run_id, html_path, mp4_path
 
 
 def list_local_assets() -> list[str]:
@@ -135,85 +160,88 @@ def generate_html_with_router(idea: str, local_assets: list[str]) -> str:
     return extract_html(html_raw)
 
 
-def render_mp4_1080x1920(html_path: Path, mp4_path: Path, duration_sec: int = 45) -> None:
+def render_mp4_1080x1920(html_path: Path, mp4_path: Path, run_id: str, duration_sec: int = 45) -> None:
     if not shutil.which("ffmpeg"):
         raise RuntimeError("No se encontró ffmpeg.")
 
-    raw_video_dir = OUTPUT_DIR / "pw_video"
-    if raw_video_dir.exists():
-        shutil.rmtree(raw_video_dir)
+    temp_dir = OUTPUT_DIR / f"pw_temp_{run_id}"
+    raw_video_dir = temp_dir / "video"
     raw_video_dir.mkdir(parents=True, exist_ok=True)
 
     pulse_running = shutil.which("parecord") is not None
-    audio_wav = OUTPUT_DIR / "captured_audio.wav"
+    audio_wav = temp_dir / "captured_audio.wav"
     audio_proc = None
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(
-            headless=True,
-            args=[
-                "--use-gl=angle",
-                "--use-angle=swiftshader",
-                "--enable-webgl",
-                "--autoplay-policy=no-user-gesture-required",
-            ],
-        )
-        context = browser.new_context(
-            viewport={"width": 1080, "height": 1920},
-            device_scale_factor=1,
-            record_video_dir=str(raw_video_dir),
-            record_video_size={"width": 1080, "height": 1920},
-        )
-        page = context.new_page()
-
-        if pulse_running:
-            audio_proc = subprocess.Popen(
-                ["parecord", "--device=default.monitor", "--format=s16le", "--rate=44100", "--channels=2", str(audio_wav)],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(
+                headless=True,
+                args=[
+                    "--use-gl=angle",
+                    "--use-angle=swiftshader",
+                    "--enable-webgl",
+                    "--autoplay-policy=no-user-gesture-required",
+                ],
             )
+            context = browser.new_context(
+                viewport={"width": 1080, "height": 1920},
+                device_scale_factor=1,
+                record_video_dir=str(raw_video_dir),
+                record_video_size={"width": 1080, "height": 1920},
+            )
+            page = context.new_page()
 
-        page.goto(html_path.resolve().as_uri(), wait_until="networkidle")
-        page.evaluate("""() => {
-            const ctl = document.getElementById('ctl');
-            if (ctl) ctl.style.display = 'none';
-            window.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
-            if (window.SND && typeof window.SND.unlock === 'function') window.SND.unlock();
-            if (window.tl && typeof window.tl.play === 'function') window.tl.play(0);
-        }""")
+            if pulse_running:
+                audio_proc = subprocess.Popen(
+                    ["parecord", "--device=default.monitor", "--format=s16le", "--rate=44100", "--channels=2", str(audio_wav)],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                )
 
-        time.sleep(duration_sec)
+            page.goto(html_path.resolve().as_uri(), wait_until="networkidle")
+            page.evaluate("""() => {
+                const ctl = document.getElementById('ctl');
+                if (ctl) ctl.style.display = 'none';
+                window.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+                if (window.SND && typeof window.SND.unlock === 'function') window.SND.unlock();
+                if (window.tl && typeof window.tl.play === 'function') window.tl.play(0);
+            }""")
 
-        context.close()
-        browser.close()
+            time.sleep(duration_sec)
 
-    if audio_proc:
-        audio_proc.terminate()
-        audio_proc.wait(timeout=5)
+            context.close()
+            browser.close()
 
-    recorded_webm = next(raw_video_dir.glob("*.webm"), None)
-    if not recorded_webm:
-        raise RuntimeError("Playwright no generó el vídeo base (.webm).")
+        if audio_proc:
+            audio_proc.terminate()
+            audio_proc.wait(timeout=5)
 
-    cmd = ["ffmpeg", "-y", "-i", str(recorded_webm)]
-    has_audio = audio_wav.exists() and audio_wav.stat().st_size > 1024
-    if has_audio:
-        cmd += ["-i", str(audio_wav)]
+        recorded_webm = next(raw_video_dir.glob("*.webm"), None)
+        if not recorded_webm:
+            raise RuntimeError("Playwright no generó el vídeo base (.webm).")
 
-    cmd += [
-        "-t", str(duration_sec),
-        "-vf", "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,fps=30",
-        "-c:v", "libx264",
-        "-pix_fmt", "yuv420p",
-        "-preset", "fast",
-        "-crf", "18",
-    ]
-    if has_audio:
-        cmd += ["-c:a", "aac", "-b:a", "192k", "-shortest"]
+        cmd = ["ffmpeg", "-y", "-i", str(recorded_webm)]
+        has_audio = audio_wav.exists() and audio_wav.stat().st_size > 1024
+        if has_audio:
+            cmd += ["-i", str(audio_wav)]
 
-    cmd.append(str(mp4_path))
-    subprocess.run(cmd, check=True)
-    print(f"MP4 listo en: {mp4_path}")
+        cmd += [
+            "-t", str(duration_sec),
+            "-vf", "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,fps=30",
+            "-c:v", "libx264",
+            "-pix_fmt", "yuv420p",
+            "-preset", "fast",
+            "-crf", "18",
+        ]
+        if has_audio:
+            cmd += ["-c:a", "aac", "-b:a", "192k", "-shortest"]
+
+        cmd.append(str(mp4_path))
+        subprocess.run(cmd, check=True)
+        print(f"MP4 listo en: {mp4_path}")
+    finally:
+        if temp_dir.exists():
+            shutil.rmtree(temp_dir, ignore_errors=True)
 
 
 def main():
@@ -222,15 +250,14 @@ def main():
         sys.exit(1)
 
     idea = sys.argv[1]
-    html_path = OUTPUT_DIR / "index.html"
-    mp4_path = OUTPUT_DIR / "video_final.mp4"
+    run_id, html_path, mp4_path = build_run_paths(idea)
 
     local_assets = list_local_assets()
     html_code = generate_html_with_router(idea, local_assets)
     html_path.write_text(html_code, encoding="utf-8")
     print(f"HTML guardado en: {html_path}")
 
-    render_mp4_1080x1920(html_path, mp4_path, duration_sec=45)
+    render_mp4_1080x1920(html_path, mp4_path, run_id=run_id, duration_sec=45)
 
 
 if __name__ == "__main__":
