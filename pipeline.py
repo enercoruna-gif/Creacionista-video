@@ -13,18 +13,16 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 
 def load_skill() -> str:
     skill_path = Path("SKILL.md")
-    if skill_path.exists():
-        return skill_path.read_text(encoding="utf-8")
-    return ""
+    return skill_path.read_text(encoding="utf-8") if skill_path.exists() else ""
 
 
 def generate_image_hf(prompt: str, out_path: Path) -> bool:
     token = os.getenv("HF_TOKEN", "").strip()
     if not token:
-        print("Aviso: HF_TOKEN no configurado. Se omite generación de imagen.")
+        print("Aviso: HF_TOKEN no configurado. Se omite imagen.")
         return False
 
-    url = "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-schnell"
+    url = "https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell"
     headers = {"Authorization": f"Bearer {token}"}
     payload = {
         "inputs": f"{prompt}, clean editorial studio render, vertical 9:16 framing, no text overlay",
@@ -37,9 +35,9 @@ def generate_image_hf(prompt: str, out_path: Path) -> bool:
             out_path.write_bytes(res.content)
             print(f"Imagen generada en: {out_path}")
             return True
-        print(f"Error en Hugging Face ({res.status_code}): {res.text[:200]}")
+        print(f"Aviso Hugging Face ({res.status_code}): se continúa sin imagen.")
     except Exception as e:
-        print(f"Excepción generando imagen: {e}")
+        print(f"Aviso imagen ({e}): se continúa sin imagen.")
     return False
 
 
@@ -48,24 +46,25 @@ def call_gemini(system_prompt: str, user_prompt: str) -> str | None:
     if not api_key:
         return None
 
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
-    payload = {
-        "systemInstruction": {"parts": [{"text": system_prompt}]},
-        "contents": [{"parts": [{"text": user_prompt}]}],
-        "generationConfig": {"temperature": 0.7},
-    }
-
-    try:
-        res = requests.post(url, json=payload, timeout=120)
-        if res.status_code == 200:
-            data = res.json()
-            candidates = data.get("candidates", [])
-            if candidates:
-                parts = candidates[0].get("content", {}).get("parts", [])
-                return "".join(p.get("text", "") for p in parts)
-        print(f"Gemini falló ({res.status_code}): {res.text[:200]}")
-    except Exception as e:
-        print(f"Error llamando a Gemini: {e}")
+    for model in ["gemini-3.8-flash", "gemini-3.8-pro", "gemini-flash-latest"]:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+        payload = {
+            "systemInstruction": {"parts": [{"text": system_prompt}]},
+            "contents": [{"parts": [{"text": user_prompt}]}],
+            "generationConfig": {"temperature": 0.7},
+        }
+        try:
+            res = requests.post(url, json=payload, timeout=120)
+            if res.status_code == 200:
+                data = res.json()
+                candidates = data.get("candidates", [])
+                if candidates:
+                    parts = candidates[0].get("content", {}).get("parts", [])
+                    print(f"HTML generado con {model}")
+                    return "".join(p.get("text", "") for p in parts)
+            print(f"Gemini {model} ({res.status_code}): {res.text[:160]}")
+        except Exception as e:
+            print(f"Error llamando a {model}: {e}")
     return None
 
 
@@ -74,32 +73,27 @@ def call_openrouter(system_prompt: str, user_prompt: str) -> str | None:
     if not api_key:
         return None
 
-    models = [
-        "deepseek/deepseek-chat-v3-0324:free",
-        "qwen/qwen-2.5-coder-32b-instruct:free",
-    ]
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
     }
-
-    for model in models:
-        payload = {
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            "temperature": 0.7,
-        }
-        try:
-            res = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload, timeout=120)
-            if res.status_code == 200:
-                data = res.json()
-                return data["choices"][0]["message"]["content"]
-            print(f"OpenRouter ({model}) falló ({res.status_code})")
-        except Exception as e:
-            print(f"Error con {model}: {e}")
+    payload = {
+        "model": "openrouter/free",
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+        "temperature": 0.7,
+    }
+    try:
+        res = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload, timeout=120)
+        if res.status_code == 200:
+            data = res.json()
+            print("HTML generado con OpenRouter (openrouter/free)")
+            return data["choices"][0]["message"]["content"]
+        print(f"OpenRouter falló ({res.status_code}): {res.text[:160]}")
+    except Exception as e:
+        print(f"Error OpenRouter: {e}")
     return None
 
 
@@ -141,7 +135,7 @@ def generate_html_with_router(idea: str, has_image: bool) -> str:
 
 def render_mp4_1080x1920(html_path: Path, mp4_path: Path, duration_sec: int = 45) -> None:
     if not shutil.which("ffmpeg"):
-        raise RuntimeError("No se encontró ffmpeg. Instálalo con: sudo apt-get update && sudo apt-get install -y ffmpeg")
+        raise RuntimeError("No se encontró ffmpeg.")
 
     raw_video_dir = OUTPUT_DIR / "pw_video"
     if raw_video_dir.exists():
@@ -198,31 +192,19 @@ def render_mp4_1080x1920(html_path: Path, mp4_path: Path, duration_sec: int = 45
     if not recorded_webm:
         raise RuntimeError("Playwright no generó el vídeo base (.webm).")
 
-    cmd = [
-        "ffmpeg",
-        "-y",
-        "-i",
-        str(recorded_webm),
-    ]
+    cmd = ["ffmpeg", "-y", "-i", str(recorded_webm)]
     has_audio = audio_wav.exists() and audio_wav.stat().st_size > 1024
     if has_audio:
         cmd += ["-i", str(audio_wav)]
 
     cmd += [
-        "-t",
-        str(duration_sec),
-        "-vf",
-        "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,fps=30",
-        "-c:v",
-        "libx264",
-        "-pix_fmt",
-        "yuv420p",
-        "-preset",
-        "fast",
-        "-crf",
-        "18",
+        "-t", str(duration_sec),
+        "-vf", "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,fps=30",
+        "-c:v", "libx264",
+        "-pix_fmt", "yuv420p",
+        "-preset", "fast",
+        "-crf", "18",
     ]
-
     if has_audio:
         cmd += ["-c:a", "aac", "-b:a", "192k", "-shortest"]
 
