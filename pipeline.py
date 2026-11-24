@@ -8,37 +8,23 @@ import requests
 from playwright.sync_api import sync_playwright
 
 OUTPUT_DIR = Path("output")
+ASSETS_DIR = Path("assets")
+TEMPLATE_PATH = Path("templates/base_video.html")
 OUTPUT_DIR.mkdir(exist_ok=True)
+ASSETS_DIR.mkdir(exist_ok=True)
 
 
-def load_skill() -> str:
-    skill_path = Path("SKILL.md")
-    return skill_path.read_text(encoding="utf-8") if skill_path.exists() else ""
+def load_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8") if path.exists() else ""
 
 
-def generate_image_hf(prompt: str, out_path: Path) -> bool:
-    token = os.getenv("HF_TOKEN", "").strip()
-    if not token:
-        print("Aviso: HF_TOKEN no configurado. Se omite imagen.")
-        return False
-
-    url = "https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell"
-    headers = {"Authorization": f"Bearer {token}"}
-    payload = {
-        "inputs": f"{prompt}, clean editorial studio render, vertical 9:16 framing, no text overlay",
-        "parameters": {"width": 768, "height": 1344},
-    }
-
-    try:
-        res = requests.post(url, headers=headers, json=payload, timeout=90)
-        if res.status_code == 200 and res.headers.get("content-type", "").startswith("image/"):
-            out_path.write_bytes(res.content)
-            print(f"Imagen generada en: {out_path}")
-            return True
-        print(f"Aviso Hugging Face ({res.status_code}): se continúa sin imagen.")
-    except Exception as e:
-        print(f"Aviso imagen ({e}): se continúa sin imagen.")
-    return False
+def list_local_assets() -> list[str]:
+    exts = {".png", ".jpg", ".jpeg", ".webp", ".svg"}
+    files = sorted(
+        p.name for p in ASSETS_DIR.iterdir()
+        if p.is_file() and p.suffix.lower() in exts
+    )
+    return [f"./assets/{name}" for name in files]
 
 
 def call_gemini(system_prompt: str, user_prompt: str) -> str | None:
@@ -51,7 +37,7 @@ def call_gemini(system_prompt: str, user_prompt: str) -> str | None:
         payload = {
             "systemInstruction": {"parts": [{"text": system_prompt}]},
             "contents": [{"parts": [{"text": user_prompt}]}],
-            "generationConfig": {"temperature": 0.7},
+            "generationConfig": {"temperature": 0.55},
         }
         try:
             res = requests.post(url, json=payload, timeout=120)
@@ -83,7 +69,7 @@ def call_openrouter(system_prompt: str, user_prompt: str) -> str | None:
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
         ],
-        "temperature": 0.7,
+        "temperature": 0.55,
     }
     try:
         res = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload, timeout=120)
@@ -106,20 +92,36 @@ def extract_html(raw_text: str) -> str:
     return text.strip()
 
 
-def generate_html_with_router(idea: str, has_image: bool) -> str:
-    skill = load_skill()
+def generate_html_with_router(idea: str, local_assets: list[str]) -> str:
+    skill = load_text(Path("SKILL.md"))
+    template_html = load_text(TEMPLATE_PATH)
+
     system_prompt = (
-        "Eres un director de arte y desarrollador frontend de élite. "
-        "Devuelve ÚNICAMENTE un archivo HTML autocontenido válido (sin explicaciones fuera del código). "
-        "Incluye GSAP 3 desde CDN y un sistema de micro-sonidos con Web Audio API (sin MP3 externos) "
-        "desbloqueado automáticamente y listo para escucharse durante la reproducción.\n\n"
+        "Eres un director de arte y desarrollador frontend experto en vídeos verticales 9:16 (1080x1920) "
+        "para ia.cuadrantia.store. Devuelve ÚNICAMENTE un archivo HTML completo válido (sin markdown ni explicaciones). "
+        "REGLAS CRÍTICAS:\n"
+        "1. Mantén el FONDO CLARO (#F6F7F2 / #f7f7f3 / #ffffff) y acentos lima (#D9F26B / #def27f) de la plantilla de referencia.\n"
+        "2. Mantén las animaciones GSAP 3 completas (zoom/paneo en .cam, entrada escalonada de tarjetas/cajetines, "
+        "subrayados .hl, escritura .ln y transiciones con desvanecido entre escenas) y Web Audio API.\n"
+        "3. Evita cualquier solapamiento en el fotograma 0: cada escena (.sc) debe estar oculta salvo la activa "
+        "y los elementos animados deben entrar progresivamente según la timeline.\n\n"
         + skill
     )
-    img_note = "Hay una imagen local disponible en './scene_bg.png' que puedes integrar con elegancia." if has_image else "No uses imágenes locales externas; usa diseño tipográfico, tarjetas y gráficos vectoriales/HTML."
+
+    assets_list = "\n".join(f"- {a}" for a in local_assets) if local_assets else "- ./assets/logo_principal.png"
+    template_section = (
+        f"\n\nPLANTILLA HTML DE REFERENCIA (conserva su estética clara, estructura de escenas, GSAP y sonido):\n{template_html[:22000]}"
+        if template_html else ""
+    )
+
     user_prompt = (
-        f"Crea una animación de lanzamiento de 45 segundos en formato vertical 9:16 para: {idea}. "
-        f"{img_note} Asegúrate de que la animación arranque sola al cargar la página y dispare los micro-sonidos "
-        "de Web Audio sincronizados con las escenas y acciones."
+        f"Crea la versión animada de 45s (9:16, 1080x1920) sobre: {idea}\n"
+        "Céntrate en curiosidades reales y prácticas de design.md, skills de IA y prompts para ChatGPT, Gemini y Claude.\n"
+        "Integra estos archivos locales reales cuando corresponda (con <img src=\"...\">):\n"
+        f"{assets_list}\n"
+        "Asegúrate de que no haya texto ni cajetines amontonados en el primer fotograma y de que todas las "
+        "animaciones de zoom, slides, cajetines y transiciones se ejecuten de forma fluida."
+        f"{template_section}"
     )
 
     html_raw = call_gemini(system_prompt, user_prompt)
@@ -128,7 +130,7 @@ def generate_html_with_router(idea: str, has_image: bool) -> str:
         html_raw = call_openrouter(system_prompt, user_prompt)
 
     if not html_raw:
-        raise RuntimeError("No se pudo generar el HTML: revisa GEMINI_API_KEY o OPENROUTER_API_KEY.")
+        raise RuntimeError("No se pudo generar el HTML.")
 
     return extract_html(html_raw)
 
@@ -173,10 +175,11 @@ def render_mp4_1080x1920(html_path: Path, mp4_path: Path, duration_sec: int = 45
 
         page.goto(html_path.resolve().as_uri(), wait_until="networkidle")
         page.evaluate("""() => {
+            const ctl = document.getElementById('ctl');
+            if (ctl) ctl.style.display = 'none';
             window.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
-            if (window.UISound && typeof window.UISound.unlock === 'function') {
-                window.UISound.unlock();
-            }
+            if (window.SND && typeof window.SND.unlock === 'function') window.SND.unlock();
+            if (window.tl && typeof window.tl.play === 'function') window.tl.play(0);
         }""")
 
         time.sleep(duration_sec)
@@ -215,16 +218,15 @@ def render_mp4_1080x1920(html_path: Path, mp4_path: Path, duration_sec: int = 45
 
 def main():
     if len(sys.argv) < 2:
-        print('Uso: python pipeline.py "Descripción del producto o idea del vídeo"')
+        print('Uso: python3 pipeline.py "Idea del vídeo"')
         sys.exit(1)
 
     idea = sys.argv[1]
-    img_path = OUTPUT_DIR / "scene_bg.png"
     html_path = OUTPUT_DIR / "index.html"
     mp4_path = OUTPUT_DIR / "video_final.mp4"
 
-    has_img = generate_image_hf(idea, img_path)
-    html_code = generate_html_with_router(idea, has_img)
+    local_assets = list_local_assets()
+    html_code = generate_html_with_router(idea, local_assets)
     html_path.write_text(html_code, encoding="utf-8")
     print(f"HTML guardado en: {html_path}")
 
