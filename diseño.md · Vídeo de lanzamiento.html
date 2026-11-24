@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>diseño.md · Vídeo de lanzamiento</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F7F2;--ink:#111;--lime:#D9F26B;--ol:#3B4A12;--gr:#4B5042;--ln:#E1E3D6;--mono:#EFF0E8}
+@media(prefers-color-scheme:dark){:root{color-scheme:light}}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#d9dbd0;overflow:hidden}
+body{font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;color:var(--ink)}
+.stage{--u:min(1vw,.5625dvh);position:relative;width:min(100vw,56.25dvh);height:100dvh;margin:0 auto;overflow:hidden;font-size:calc(var(--u)*3.7);background:radial-gradient(circle at 92% 0,rgba(217,242,107,.38),transparent 55%),var(--bg)}
+.stage::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:50;opacity:.025;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+#bar{position:absolute;top:0;left:0;height:3px;width:100%;background:rgba(17,17,17,.25);transform-origin:0 50%;transform:scaleX(0);z-index:60}
+.sc{position:absolute;inset:0;visibility:hidden;display:flex;flex-direction:column;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 4.4em) 1.2em 7.4em 1.2em;will-change:transform,opacity;transform:translate3d(0,0,0)}
+.t,.c,.d,#kit{opacity:0}.pr .ln{clip-path:inset(0 100% 0 0)}.cam{display:flex;flex-direction:column;gap:.8em}
+.tx{display:flex;flex-direction:column;gap:.4em}
+.hd{position:absolute;left:1.2em;right:1.2em;top:calc(env(safe-area-inset-top,0px) + 1.6em);display:flex;justify-content:space-between;align-items:center;padding-bottom:.6em;border-bottom:1px solid var(--ln)}
+.logo{font-weight:800;font-size:1.05em;letter-spacing:-.04em}
+.logo b{background:linear-gradient(to top,var(--lime) 50%,transparent 50%);color:var(--ink);border-radius:.12em;padding:0 .08em;margin-left:.04em}
+.tag{font-size:.55em;font-weight:600;letter-spacing:.14em;color:var(--gr)}
+.ft{position:absolute;left:1.2em;right:1.2em;bottom:84px;display:flex;justify-content:space-between;align-items:center;padding-top:.6em;border-top:1px solid var(--ln);font-size:.6em;font-weight:800;color:var(--ink)}
+.ft i{font-style:normal;font-weight:600;letter-spacing:.14em;color:var(--gr);font-variant-numeric:tabular-nums}
+.k{font-size:.6em;font-weight:600;letter-spacing:.16em;color:var(--gr)}
+h1{font-size:3.1em;line-height:.98;font-weight:800;letter-spacing:-.05em}
+.hl{background-image:linear-gradient(to top,var(--lime) 30%,transparent 30%);background-repeat:no-repeat;background-size:0% 100%;padding:0 .04em;margin:0;border-radius:.1em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.sub{font-size:.95em;line-height:1.3;color:var(--gr)}
+.card{background:#fff;border:1px solid var(--ln);border-top-color:rgba(255,255,255,.95);border-radius:1em;box-shadow:0 2px 4px rgba(17,17,17,.03),0 18px 40px -10px rgba(17,17,17,.1);overflow:hidden;will-change:transform,opacity;transform:translate3d(0,0,0)}
+.cb{display:flex;justify-content:space-between;align-items:center;padding:.7em .9em;border-bottom:1px solid var(--ln);font:500 .55em 'JetBrains Mono',monospace;color:var(--gr);letter-spacing:.04em}
+.dots{display:flex;gap:.35em}.dots i{width:.4em;height:.4em;border-radius:50%;background:#6B7266}
+.rw{height:2.4em;margin:.5em .9em;border-radius:.6em;background:var(--mono);border:1px solid var(--ln);display:flex;align-items:center;gap:.5em;padding:0 .9em}
+.rw i{height:.4em;border-radius:9px;background:#C9CDBD}.rw i:first-child{background:#ABB2A2}
+.num{width:1.7em;height:1.7em;border-radius:.5em;background:var(--lime);color:var(--ol);font:500 .6em 'JetBrains Mono',monospace;display:grid;place-items:center;flex:none}
+.it{display:flex;align-items:center;gap:1em;padding:.8em .9em}
+.it b{display:block;font-size:.9em;font-weight:800;letter-spacing:-.03em}.it span{font-size:.65em;color:var(--gr)}
+.sw{display:grid;grid-template-columns:repeat(4,1fr);gap:.4em;padding:.8em .9em;font:500 .5em 'JetBrains Mono',monospace;letter-spacing:.06em}
+.sw div{height:3.4em;border-radius:.6em;border:1px solid var(--ln);display:grid;place-items:center}
+.sub2{border-top:1px solid var(--ln)}
+.ph{width:76%;margin:0 auto;font-family:'DM Sans',sans-serif}
+.ph .in{margin:.6em;border:1px solid var(--ln);border-radius:.8em;background:var(--bg);padding:1em .8em;text-align:center}
+.ph h3{font-size:1.15em;font-weight:500;line-height:1.1;letter-spacing:-.02em;margin:.5em 0}.ph h3 em{font-style:normal;color:var(--ol)}
+.ph p{font-size:.55em;color:#6b7266;line-height:1.5}.pbtn{margin:.5em 0;border-radius:99px;padding:.7em;font-size:.6em}
+.web{height:19em;margin:.5em;border-radius:.8em;background:#161616;overflow:hidden;color:#eee}
+.scr{padding:1em;font-size:.6em;line-height:1.5}.scr h4{font-size:2em;line-height:1.1;font-weight:600;letter-spacing:-.03em;margin:.5em 0}
+.scr p{color:#aaa;font-size:.85em}.scr .b{display:inline-block;background:#222;border:1px solid #333;border-radius:.4em;padding:.5em .7em;margin:.8em .3em 0 0}.scr .b.w{background:#eee;color:#111}
+.scr .s{margin:2.2em 0 .6em;border:1px solid #2a2a2a;border-radius:.4em;padding:.8em;color:#777}.scr .ch{display:flex;flex-wrap:wrap;gap:.4em}.scr .ch span{border:1px solid #333;border-radius:99px;padding:.4em .8em}
+.big{background:#F3F8E6;margin:.5em;border-radius:.8em;border:1px solid var(--ln);padding:.9em;font-family:'DM Sans',sans-serif}
+.big .pl{box-shadow:0 0 0 rgba(217,242,107,0);display:inline-block;background:var(--lime);border-radius:99px;padding:.6em .9em;font-size:.5em;letter-spacing:.08em;color:var(--gr)}
+.big h3{font-size:2.3em;font-weight:500;line-height:1.1;letter-spacing:-.03em;margin:.5em 0}.big p{font-size:.7em;line-height:1.7;color:var(--gr)}
+.gh{font-size:.7em;letter-spacing:.14em;color:#999;margin:1.6em 0 .8em}.gd{display:grid;grid-template-columns:1fr 1fr;gap:.9em;padding-bottom:1em}.wc{background:#1e1e1e;border:1px solid #2c2c2c;border-radius:.7em;overflow:hidden}.pv{height:6.6em;padding:.8em;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;line-height:1.15}.pv strong{font-size:1.2em;font-weight:600;letter-spacing:-.02em}.pv strong.sf{font-family:Georgia,serif;font-weight:400}.pv em{font-style:normal;font-size:.8em;opacity:.75}.pv u{text-decoration:none;border-radius:99px;padding:.35em .8em;font-size:.8em;font-weight:600}.wi{padding:.7em .8em;display:flex;justify-content:space-between;align-items:center;gap:.4em}.wi b{display:block;font-weight:600;font-size:1.1em}.wi small{color:#aaa;font-size:.9em}.sd{display:flex;padding-left:.3em}.sd i{width:1.1em;height:1.1em;border-radius:50%;border:1px solid #1e1e1e;margin-left:-.3em}.cm .lb{font-size:.8em;font-weight:800;letter-spacing:-.02em;margin-bottom:.4em}.cm .lb small{font-weight:500;color:var(--gr);font-size:.8em;letter-spacing:0}.mk{background:linear-gradient(to top,var(--lime) 32%,transparent 32%);padding:0 .05em}.cm .im{border-radius:.8em;overflow:hidden;border:1px solid var(--ln);box-shadow:0 2px 4px rgba(17,17,17,.03),0 18px 40px -10px rgba(17,17,17,.12)}.lg{align-self:center;width:11em;height:11em;display:grid;place-items:center;border-radius:2.6em;background:#fff;border:1px solid var(--ln);box-shadow:0 2px 4px rgba(17,17,17,.03),0 18px 40px -10px rgba(17,17,17,.1)}.lg svg{width:7.6em;height:7.6em}.chips{display:flex;gap:.5em}.chips span{border:1px solid #B8BDA9;border-radius:99px;padding:.5em .9em;font:400 .55em 'JetBrains Mono',monospace;color:var(--ol)}
+.pr{padding:.9em 1em;font:400 1.05em 'JetBrains Mono',monospace;line-height:1.5}.pr small{display:block;font-size:.5em;letter-spacing:.14em;color:var(--gr);margin-bottom:.8em}.pr .ln{display:block;white-space:nowrap}.pr mark{background:var(--lime);color:var(--ol);border-radius:.3em;padding:0 .2em}
+.st{background:#fff;border:1px solid var(--ln);border-radius:1em;display:flex;gap:1em;align-items:center;padding:.8em .9em}.st .num{background:#E6EBCB}
+.ic{position:relative;width:8em;height:8em;display:grid;place-items:center}.ic i{position:absolute;border:1px solid #C5C9B0}
+.ic .a{inset:0;border-radius:50%}.ic .b{inset:.8em;border-radius:1.6em}.ic .d{inset:1.6em;border:0;background:var(--lime);border-radius:1.6em;transform:rotate(45deg)}
+.ic span{position:relative;font-weight:800;font-size:1.4em;letter-spacing:-.06em;color:var(--ol)}
+.go{position:relative;overflow:hidden;display:flex;justify-content:space-between;align-items:center;background:var(--lime);color:var(--ol);border-radius:99px;padding:.8em 1.1em;font-size:1.15em;font-weight:800;letter-spacing:-.04em}
+.go u{position:absolute;top:0;bottom:0;left:0;width:30%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.65),transparent);transform:none}
+
+.hl{position:relative}
+.hl::after{content:"";position:absolute;left:-.1em;right:-.1em;bottom:.02em;height:.6em;background:var(--lime);filter:blur(.3em);opacity:var(--g,0);z-index:-1;border-radius:.3em;pointer-events:none}
+#cam1{gap:.8em}
+.stk{position:relative}
+#gen{position:relative;z-index:1}
+.gst{position:absolute;inset:0;z-index:0;opacity:0;pointer-events:none}
+.cp{padding:.65em .75em .6em}
+.cp .ct{font-weight:800;font-size:.9em;letter-spacing:-.035em;line-height:1.1;margin-bottom:.45em}
+.cp .cc{font-size:.58em;line-height:1.3;color:var(--gr);margin-top:.55em}
+.nt{font-size:.5em;letter-spacing:.02em;color:var(--gr)}
+.wf{height:8em;border:1.5px dashed #B8BDA9;border-radius:.7em;background:#F3F4EC;padding:.55em .6em;display:flex;flex-direction:column;gap:.45em;overflow:hidden}
+.wn{display:flex;align-items:center;gap:.5em;height:.8em;flex:none}
+.wn i{height:.3em;width:1.5em;border-radius:9px;background:#C9CDBD}
+.wn i.l{width:2.6em;height:.5em;border-radius:.15em;background:#ABB2A2}
+.wn i.sp{flex:1;background:none}
+.wn u{width:2.1em;height:.62em;border:1px solid #B8BDA9;border-radius:.2em}
+.wh{display:grid;grid-template-columns:1.25fr 1fr;gap:.6em;flex:1;min-height:0}
+.wl{display:flex;flex-direction:column;gap:.28em;justify-content:center}
+.wl i{height:.3em;border-radius:9px;background:#C9CDBD}
+.wl i.t{height:.5em;width:92%;background:#ABB2A2}.wl i.t.b{width:64%}.wl i.s{width:74%}
+.wl u{margin-top:.15em;width:3.6em;height:.9em;border-radius:.2em;background:#D5D9C8;border:1px solid #B8BDA9;display:grid;place-items:center;text-decoration:none}.wl u b{font:500 .42em 'JetBrains Mono',monospace;color:var(--gr);letter-spacing:.06em}
+.wp{border-radius:.5em;border:1px solid #CDD1C0;display:grid;place-items:center;font:500 .46em 'JetBrains Mono',monospace;color:#8B9180;letter-spacing:.08em;background:linear-gradient(to top right,transparent calc(50% - .6px),#CDD1C0 50%,transparent calc(50% + .6px)),linear-gradient(to bottom right,transparent calc(50% - .6px),#CDD1C0 50%,transparent calc(50% + .6px)),#E9ECDF}
+.wp span{background:#E9ECDF;padding:.1em .5em}
+.wr{display:grid;grid-template-columns:repeat(3,1fr);gap:.4em;height:2.1em;flex:none}
+.wr div{border:1px solid #CDD1C0;border-radius:.4em;background:#F8F9F3;padding:.4em;display:flex;flex-direction:column;gap:.25em}
+.wr i{height:.26em;border-radius:9px;background:#C9CDBD}.wr i:first-child{background:#ABB2A2;width:58%}
+.cx{position:relative;height:8em;border-radius:.7em;overflow:hidden;background:linear-gradient(#fff,#E6E3F1 38%,#F5DCCD);border:1px solid var(--ln);font-family:Arial,Helvetica,'Inter',sans-serif;color:#252624;display:flex;flex-direction:column}
+.xn{display:flex;align-items:center;gap:.7em;padding:.45em .7em;background:rgba(255,255,255,.88);border-bottom:1px solid #E8E9E4;font-size:.46em;flex:none}
+.xn b{display:inline-grid;place-items:center;width:1.5em;height:1.5em;border-radius:.4em;background:#252624;color:#fff;font-size:.9em;margin-right:.5em}
+.xn .xl{font-weight:700;letter-spacing:.04em;font-size:1.25em;display:flex;align-items:center;margin-right:auto}
+.xn span:not(.xl){color:#656762}
+.xn u{text-decoration:none;background:#252624;color:#fff;border-radius:99px;padding:.4em 1em;font-weight:500}
+.xh{display:grid;grid-template-columns:1.2fr 1fr;gap:.7em;padding:.8em .8em 0;flex:1;min-height:0;align-items:start}
+.x1{font-size:.92em;font-weight:600;letter-spacing:-.035em;line-height:1.1}
+.x2{font-size:.44em;color:#656762;line-height:1.4;margin:.7em 0 .9em}
+.xb{display:inline-block;background:#252624;color:#fff;border-radius:99px;padding:.45em 1.1em;font-size:.48em;font-weight:500}
+.xp{background:#fff;border:1px solid #E8E9E4;border-radius:.6em;box-shadow:0 .8em 1.6em -.4em rgba(41,43,37,.18);padding:.55em .65em;font-size:.44em;margin-top:.5em}
+.xp b{display:block;margin-bottom:.4em;font-size:1.1em}
+.xp div{display:flex;justify-content:space-between;align-items:center;gap:.5em;padding:.5em 0;border-top:1px solid #E8E9E4}
+.xp i{font-style:normal;border-radius:4px;padding:.15em .6em;font-size:.85em}
+.xp i.ok{background:#E7EEE3;color:#46623B}.xp i.en{background:#F3EADB;color:#75572D}
+.xt{position:absolute;right:.55em;bottom:.5em;background:#fff;border-radius:.45em;padding:.4em .8em;font:600 .52em Inter,Arial,sans-serif;box-shadow:0 1px 2px rgba(17,17,17,.08),0 .6em 1.2em -.3em rgba(17,17,17,.15)}
+#ctl{position:fixed;z-index:99;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 18px);max-width:92vw;display:flex;gap:6px;padding:6px 10px;border-radius:99px;background:rgba(255,255,255,.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--ln);font-size:12px;align-items:center;font-family:Inter,sans-serif}
+#ctl button{font:600 12px Inter,sans-serif;border:0;border-radius:99px;padding:6px 10px;background:var(--lime);color:var(--ol)}#ctl button.off{background:#E1E3D6;color:var(--gr);text-decoration:line-through}#ctl #bs{padding:6px 9px}
+#ctl span{font-variant-numeric:tabular-nums;padding:0 4px;color:var(--gr)}
+</style></head>
+<body>
+<div class="stage" id="stage"><div id="bar"></div>
+
+<section class="sc"><div class="hd t"><div class="logo">diseño<b>.md</b></div><div class="tag">EL PROBLEMA ↗</div></div>
+<div class="cam" id="cam1"><div class="tx"><div class="k t">CUANDO FALTA CONTEXTO</div><h1 class="t">¿Tu web con IA se ve <span class="hl">genérica?</span></h1></div>
+<div class="stk"><div class="card c cp" id="gen"><div class="ct">Sin una referencia</div>
+<div class="wf"><div class="wn"><i class="l"></i><i class="sp"></i><i></i><i></i><i></i><u></u></div>
+<div class="wh"><div class="wl"><i class="t"></i><i class="t b"></i><i class="s"></i><u><b>BOTÓN</b></u></div><div class="wp"><span>IMG</span></div></div>
+<div class="wr"><div><i></i><i></i></div><div><i></i><i></i></div><div><i></i><i></i></div></div></div>
+<div class="cc">Colores, tipos y botones por decidir.</div></div></div>
+<div class="card d cp" id="cmB"><div class="ct">Con <span class="mk">DESIGN.md</span></div>
+<div class="cx"><div class="xn"><span class="xl"><b>✚</b>Crix</span><span>Producto</span><span>Recursos</span><span>Precios</span><u>Empezar</u></div>
+<div class="xh"><div><div class="x1">Tus proyectos, tareas y equipo en un solo lugar.</div><div class="x2">Organiza tareas, colabora con tu equipo y sigue cada proyecto sin perder el contexto.</div><span class="xb">Probar Crix →</span></div>
+<div class="xp"><b>Panel de tareas</b><div>Revisar portada<i class="ok">Completada</i></div><div>Preparar entrega<i class="en">En curso</i></div></div></div>
+<span class="xt">Demo oficial: Crix</span></div>
+<div class="cc">Una paleta, una jerarquía y botones coherentes.</div></div>
+<div class="nt t">Ejemplo visual, no una prueba A/B.</div></div>
+<div class="ft t"><span>ia.cuadrantia.store</span><i>01 / 08</i></div></section>
+
+<section class="sc"><div class="hd t"><div class="logo">diseño<b>.md</b></div><div class="tag">LA SOLUCIÓN ↗</div></div>
+<div class="cam"><div class="tx"><div class="k t">UNA DIRECCIÓN VISUAL</div><h1 class="t">Dale a tu IA algo más <span class="hl">concreto.</span></h1></div>
+<div class="card c ph"><div class="cb"><div class="dots"><i></i><i></i><i></i></div><span>ia.cuadrantia.store · móvil</span></div>
+<div class="in"><div style="font-size:.4em;letter-spacing:.12em;color:var(--ol);font-weight:600">SISTEMAS DE DISEÑO Y PLANTILLAS PARA CREAR CON IA</div>
+<h3>Deja de pedirle a la IA <em>«hazlo más bonito».</em></h3><p>Dale una dirección visual concreta o empieza con una plantilla con código. Sistemas DESIGN.md, demos y kits en español para adaptar tu próximo proyecto.</p>
+<div class="pbtn" style="background:var(--lime);color:var(--ol)">Ver diseños y plantillas</div><div class="pbtn" style="background:var(--mono);border:1px solid var(--ln)">Probar un DESIGN.md gratis</div>
+<p style="font-size:.45em">Un DESIGN.md define el estilo. Una plantilla incluye código. Elige lo que necesitas.</p></div></div></div>
+<div class="ft t"><span>ia.cuadrantia.store</span><i>02 / 08</i></div></section>
+
+<section class="sc"><div class="hd t"><div class="logo">diseño<b>.md</b></div><div class="tag">EL DOCUMENTO ↗</div></div>
+<div class="cam"><div class="tx"><div class="k t">DISEÑA CON CONTEXTO</div><h1 class="t">Un archivo. <span class="hl">DESIGN.md</span></h1><p class="sub t">Define el estilo. No es una web ejecutable.</p></div>
+<div class="card c" id="fl"><div class="cb"><span>DESIGN.md / EJEMPLO ILUSTRATIVO</span><div class="dots"><i></i><i></i><i></i></div></div>
+<div class="sw"><div style="background:var(--bg)">BASE</div><div style="background:var(--lime);color:var(--ol)">ACENTO</div><div style="background:var(--mono)">APOYO</div><div style="background:#111;color:#fff">TEXTO</div></div>
+<div class="it sub2"><div class="num">01</div><div><b>Color y tipografía</b><span>Paleta y jerarquía de texto.</span></div></div>
+<div class="it sub2"><div class="num">02</div><div><b>Espaciado</b><span>Ritmo y separación visual.</span></div></div>
+<div class="it sub2"><div class="num">03</div><div><b>Componentes</b><span>Botones, tarjetas y otros patrones.</span></div></div></div></div>
+<div class="ft t"><span>ia.cuadrantia.store</span><i>03 / 08</i></div></section>
+
+<section class="sc"><div class="hd t"><div class="logo">diseño<b>.md</b></div><div class="tag">EL CATÁLOGO ↗</div></div>
+<div class="cam"><div class="tx"><div class="k t">ANÁLISIS VISUALES Y DISEÑOS PROPIOS</div><h1 class="t">Explora el catálogo <span class="hl">gratis.</span></h1><p class="sub t">Así se ve un DESIGN.md aplicado: la demo Crix, completa.</p></div>
+<div class="card c"><div class="cb"><div class="dots"><i></i><i></i><i></i></div><span style="font-size:1.1em">ia.cuadrantia.store/demos/crix/</span></div><div class="web"><div class="scr" id="scr" style="font-size:.8em;line-height:1.4;padding:0;background:#F7F7F5;color:#252624;font-family:Arial,Helvetica,sans-serif"><div style="display:flex;justify-content:space-between;align-items:center;padding:.9em 1em;background:#fff;border-bottom:1px solid #E8E9E4"><b style="letter-spacing:.06em">CRIX</b><span style="border:1px solid #E8E9E4;border-radius:.4em;padding:.35em .8em;font-size:.85em">Menú</span></div><div style="background:linear-gradient(#fff,#E6E3F1 30%,#F5DCCD);padding-top:1.4em"><div style="padding:0 1em"><div style="font-size:2.1em;font-weight:600;letter-spacing:-.035em;line-height:1.1">Proyectos, tareas y equipo en un solo lugar</div><div style="margin:.8em 0 1em;color:#656762">El trabajo organizado, en un lugar tranquilo.</div><span style="display:inline-block;background:#252624;color:#fff;border-radius:99px;padding:.7em 1.5em;font-weight:500">Probar la demo</span></div><svg viewBox="0 0 400 150" preserveAspectRatio="none" style="width:100%;height:7em;display:block;margin-top:1em"><polygon points="0,150 90,45 150,100 230,15 330,110 400,60 400,150" fill="#fff" opacity=".55"/><polygon points="0,150 60,95 130,135 210,70 300,140 400,100 400,150" fill="#F7F7F5"/></svg></div><div style="margin:-1.2em 1em 0;position:relative;background:#fff;border:1px solid #E8E9E4;border-radius:10px;box-shadow:0 14px 32px #292b2520;padding:1em"><b style="display:block;margin-bottom:.6em">Panel de tareas</b><div style="display:flex;justify-content:space-between;align-items:center;padding:.6em 0;border-top:1px solid #E8E9E4"><span>Revisar portada</span><span style="background:#E7EEE3;color:#46623B;border-radius:4px;padding:.15em .6em;font-size:.8em">Completada</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:.6em 0;border-top:1px solid #E8E9E4"><span>Preparar la entrega</span><span style="background:#F3EADB;color:#75572D;border-radius:4px;padding:.15em .6em;font-size:.8em">En curso</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:.6em 0;border-top:1px solid #E8E9E4"><span>Reunión de equipo</span><span style="background:#F3EADB;color:#75572D;border-radius:4px;padding:.15em .6em;font-size:.8em">En curso</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding:.6em 0;border-top:1px solid #E8E9E4"><span>Enviar propuesta</span><span style="background:#E7EEE3;color:#46623B;border-radius:4px;padding:.15em .6em;font-size:.8em">Completada</span></div></div><div style="padding:2.4em 1em 2em;font-size:1.45em;line-height:1.25;letter-spacing:-.02em"><span>El trabajo organizado se presenta como un lugar tranquilo.</span> <span style="color:#83857E">La emoción está en la fotografía; la interfaz permanece neutra y funcional.</span></div><div style="background:#272825;color:#F8F8F4;text-align:center;padding:2.2em 1em"><div style="font-size:1.7em;font-weight:500;letter-spacing:-.03em;margin-bottom:.9em">Cómo funciona</div><span style="display:inline-block;background:#F8F8F4;color:#252624;border-radius:99px;padding:.7em 1.5em;font-weight:500">Probar la demo</span></div><div style="background:linear-gradient(#E6E3F1,#F5DCCD);height:9em;display:grid;place-items:end center;overflow:hidden"><span style="font:400 6.4em/0.8 Georgia,serif;color:rgba(255,255,255,.75);letter-spacing:-.04em">CRIX</span></div></div></div></div><div class="chips t"><span>Demo propia</span><span>Gestión de proyectos</span><span>DESIGN.md gratis</span></div></div>
+<div class="ft t"><span>ia.cuadrantia.store</span><i>04 / 08</i></div></section>
+
+<section class="sc"><div class="hd t"><div class="logo">diseño<b>.md</b></div><div class="tag">EL KIT CON CÓDIGO ↗</div></div>
+<div class="cam"><div class="tx"><div class="k t">SI PREFIERES EMPEZAR CON CÓDIGO</div><h1 class="t">Kit Pro: base <span class="hl">Next.js.</span></h1></div>
+<div class="card" id="kit"><div class="cb"><div class="dots"><i></i><i></i><i></i></div><span>ia.cuadrantia.store · ficha</span></div>
+<div class="big"><span class="pl" id="pl">DISPONIBLE · DESCARGA DEL KIT COMPLETO</span><h3>Kit Pro diseño.md</h3><p>Una plantilla propia Next.js en español e inglés, con modo demo sin claves y los ZIP de nuestros packs, incluidos el Pack completo y los estilos premium.</p></div></div>
+<div class="chips t"><span>Landing</span><span>Blog</span><span>Demo sin claves</span></div></div>
+<div class="ft t"><span>ia.cuadrantia.store</span><i>05 / 08</i></div></section>
+
+<section class="sc"><div class="hd t"><div class="logo">diseño<b>.md</b></div><div class="tag">LOS PROMPTS ↗</div></div>
+<div class="cam"><div class="tx"><div class="k t">PACK PROMPTS E INSTRUCCIONES</div><h1 class="t">Pide cambios más <span class="hl">concretos.</span></h1><p class="sub t">Prompts en español para diseño, código y marketing.</p></div>
+<div class="card c"><div class="pr"><small>EJEMPLO ILUSTRATIVO</small><span class="ln">«Usa mi <mark>DESIGN.md</mark>. Mantén la</span><span class="ln">paleta y ajusta la portada para</span><span class="ln">móvil.»</span></div></div></div>
+<div class="ft t"><span>ia.cuadrantia.store</span><i>06 / 08</i></div></section>
+
+<section class="sc"><div class="hd t"><div class="logo">diseño<b>.md</b></div><div class="tag">EL FLUJO ↗</div></div>
+<div class="cam"><div class="tx"><div class="k t">DE LA REFERENCIA A TU WEB</div><h1 class="t">Empieza en <span class="hl">3 pasos.</span></h1></div>
+<div class="st c"><div class="num">01</div><div class="it" style="padding:0"><div><b>Elige</b><span>Busca un estilo para tu proyecto.</span></div></div></div>
+<div class="st c"><div class="num">02</div><div class="it" style="padding:0"><div><b>Comparte</b><span>Adjunta el archivo y cuenta tu objetivo.</span></div></div></div>
+<div class="st c"><div class="num">03</div><div class="it" style="padding:0"><div><b>Revisa</b><span>Comprueba en móvil y ajusta.</span></div></div></div></div>
+<div class="ft t"><span>ia.cuadrantia.store</span><i>07 / 08</i></div></section>
+
+<section class="sc"><div class="hd t"><div class="logo">diseño<b>.md</b></div><div class="tag">SIGUIENTE PASO ↗</div></div>
+<div class="cam" id="cam8"><div class="lg c"><svg viewBox="200 200 624 624" aria-label="Logo de Cuadrantia"><g fill="#9AF3BE"><path d="M224 478V385Q224 224 385 224H478V362H402Q362 362 362 402V478Z"/><path d="M546 224H640Q800 224 800 385V478H662V402Q662 362 622 362H546Z"/><path d="M224 546H362V622Q362 662 402 662H478V800H385Q224 800 224 639Z"/><path d="M546 546H673L800 673V800H673L546 673Z"/></g></svg></div>
+<div class="tx"><div class="k t">TU PROYECTO, TU ESTILO</div><h1 class="t">Prueba un <span class="hl">DESIGN.md</span> gratis.</h1></div>
+<div class="go c" id="go"><span>ia.cuadrantia.store</span><span>↗</span><u></u></div></div>
+<div class="ft t"><span>IA CUADRANTIA</span><i>08 / 08</i></div></section>
+</div>
+
+<div id="ctl"><button id="bp">Pausar</button><button id="br">Reiniciar</button><span id="tm">00:00 / 00:45</span><button id="bg">Grabar</button><button id="bs" aria-label="Sonido" title="Sonido">♪</button></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+const S=[0,5.5,11,16.5,22,27.5,33,38.5],END=45,sc=[...document.querySelectorAll('.sc')],q=(i,s)=>sc[i].querySelectorAll(s),o=(i,s)=>sc[i].querySelector(s);
+const stage=document.getElementById('stage'),em=()=>parseFloat(getComputedStyle(stage).fontSize),cams=sc.map(s=>s.querySelector('.cam'));
+const E={},I={immediateRender:false};
+// ===== Micro-sonido UI · Web Audio API (síntesis pura, cero archivos) =====
+const SND=(()=>{
+ let ctx,master,dry,verb,nbuf,pref=true,rec=false;
+ const on=()=>pref&&!rec,AC=window.AudioContext||window.webkitAudioContext;
+ function init(){if(ctx||!AC)return;try{ctx=new AC({latencyHint:'interactive'})}catch(e){ctx=new AC()}
+  master=ctx.createGain();master.gain.value=on()?.9:0;
+  const comp=ctx.createDynamicsCompressor();comp.threshold.value=-20;comp.knee.value=18;comp.ratio.value=3;comp.attack.value=.004;comp.release.value=.2;
+  dry=ctx.createGain();dry.connect(master);
+  const len=ctx.sampleRate*1.6|0,ir=ctx.createBuffer(2,len,ctx.sampleRate);
+  for(let c=0;c<2;c++){const d=ir.getChannelData(c);let lp=0;for(let i=0;i<len;i++){lp+=((Math.random()*2-1)*Math.pow(1-i/len,2.6)-lp)*.35;d[i]=lp}}
+  verb=ctx.createConvolver();verb.buffer=ir;const wet=ctx.createGain();wet.gain.value=.28;verb.connect(wet);wet.connect(master);
+  master.connect(comp);comp.connect(ctx.destination);
+  nbuf=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate);const nd=nbuf.getChannelData(0);for(let i=0;i<nd.length;i++)nd[i]=Math.random()*2-1}
+ // desbloqueo iOS/Safari: primer toque en pantalla
+ function unlock(){init();if(!ctx)return;if(ctx.state!=='running'&&ctx.resume)ctx.resume();
+  try{const b=ctx.createBuffer(1,1,22050),n=ctx.createBufferSource();n.buffer=b;n.connect(ctx.destination);n.start(0)}catch(e){}
+  if(ctx.state==='running')['pointerdown','touchstart','touchend','click','keydown'].forEach(e=>document.removeEventListener(e,unlock,true))}
+ ['pointerdown','touchstart','touchend','click','keydown'].forEach(e=>document.addEventListener(e,unlock,{capture:true,passive:true}));
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&ctx&&ctx.state!=='running'&&ctx.resume)ctx.resume()});
+ // primitivas
+ const env=(g,t,a,d,pk)=>{g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(pk,t+a);g.gain.exponentialRampToValueAtTime(.0001,t+a+d)};
+ const out=(g,send)=>{g.connect(dry);if(send){const x=ctx.createGain();x.gain.value=send;g.connect(x);x.connect(verb)}};
+ function tone(o){const t=o.t,a=o.a??.004,osc=ctx.createOscillator(),g=ctx.createGain();osc.type=o.type||'sine';osc.frequency.setValueAtTime(o.f,t);
+  if(o.f2)osc.frequency.exponentialRampToValueAtTime(o.f2,t+a+o.dur);env(g,t,a,o.dur,o.g);let n=osc;
+  if(o.lp){const f=ctx.createBiquadFilter();f.type='lowpass';f.frequency.value=o.lp;osc.connect(f);n=f}
+  n.connect(g);out(g,o.send);osc.start(t);osc.stop(t+a+o.dur+.05)}
+ function noise(o){const t=o.t,a=o.a??.006,src=ctx.createBufferSource(),f=ctx.createBiquadFilter(),g=ctx.createGain();src.buffer=nbuf;src.loop=true;
+  f.type=o.type||'bandpass';f.Q.value=o.q||1;f.frequency.setValueAtTime(o.f,t);if(o.f2)f.frequency.exponentialRampToValueAtTime(o.f2,t+a+o.dur);
+  env(g,t,a,o.dur,o.g);src.connect(f);f.connect(g);out(g,o.send);src.start(t,Math.random());src.stop(t+a+o.dur+.05)}
+ const N={C5:523.25,E5:659.25,G5:783.99,B5:987.77,C6:1046.5,E6:1318.5};
+ // biblioteca de sonidos (todos ≤ 0.06 de ganancia, 10 ms – 2 s)
+ const C={
+  whoosh(t,v=1){noise({t,dur:.38,a:.12,g:.035*v,f:500,f2:2200,q:.7,send:.4});tone({t,f:150,f2:70,dur:.22,g:.035*v,lp:400})},      // transición de escena
+  reveal(t){tone({t,f:N.E6,dur:.09,g:.014,send:.5});noise({t,dur:.05,g:.01,type:'highpass',f:6000})},                                  // titular (glass tick)
+  card(t,v=1){tone({t,f:190,f2:100,dur:.14,g:.05*v,lp:600});noise({t,dur:.12,g:.02*v,type:'lowpass',f:1400,send:.3})},                // entrada de tarjeta/modal
+  marker(t){noise({t,dur:.6,a:.08,g:.014,f:1800,f2:4200,q:1.2})},                                                                       // subrayado marcador
+  pill(t,j=0){tone({t,f:1568*Math.pow(1.122,j),dur:.07,g:.016,send:.4})},                                                              // chips
+  glitch(t,k=0){tone({t,f:[880,660,990][k%3],dur:.03,a:.002,type:'triangle',g:.018});noise({t,dur:.025,a:.002,g:.012,f:4000,q:2})},     // parpadeo de copias
+  resolve(t){[N.E5,N.B5,N.E6].forEach((f,i)=>tone({t:t+i*.06,f,dur:.9,a:.01,g:.022,send:.8}))},                                         // del boceto al estilo
+  glow(t){[440,554.37,659.25].forEach((f,i)=>tone({t:t+i*.03,f,dur:1.6,a:.35,g:.02,send:.9}))},                                         // brillo lima
+  lift(t){noise({t,dur:1,a:.5,g:.03,type:'lowpass',f:300,f2:1400,q:.8,send:.3});tone({t,f:220,f2:330,dur:.9,a:.3,g:.018,send:.5})},    // tarjeta se eleva
+  slide(t){noise({t,dur:.55,a:.05,g:.04,f:2400,f2:700,q:.8,send:.3})},                                                                  // entra desde abajo
+  tick(t,v=1,p=0){noise({t,dur:.014,a:.001,g:.03*v,f:3000+p*500,q:3});tone({t,f:2400,dur:.01,a:.001,g:.008*v})},                       // micro-tick de scroll
+  key(t,p=0){noise({t,dur:.02,a:.001,g:.016,f:2400+p*600,q:2.5});tone({t,f:1500+p*200,dur:.015,a:.001,g:.006})},                       // tecla
+  type(t,k=0){const P=[[0,.09,.15,.26,.34,.47,.55,.66,.76,.85],[0,.07,.18,.25,.38,.44,.57,.69,.8],[0,.1,.16,.29,.37,.5,.58,.7]][k%3];
+   P.forEach((o,i)=>C.key(t+o,i%3));C.tick(t+.88,.5,-2)},                                                                              // línea de prompt
+  pulse(t){tone({t,f:880,f2:1175,dur:.16,g:.04,send:.5});tone({t:t+.07,f:N.E6,dur:.2,g:.025,send:.6})},                                // latido (toggle on)
+  step(t,i=0){const f=[N.E5,N.G5,N.B5][i%3];tone({t,f,dur:.35,a:.006,g:.04,send:.6});tone({t,f:f*2,dur:.2,g:.012,send:.6});C.tick(t,.5);
+   if(i>1)noise({t:t+.05,dur:.6,a:.1,g:.012,type:'highpass',f:5000,f2:9000,send:.6})},                                                 // check 1·2·3
+  shimmer(t){noise({t,dur:1.1,a:.3,g:.02,type:'highpass',f:3000,f2:9000,q:.5,send:.6});tone({t,f:N.E6,f2:2637,dur:1,a:.2,g:.012,send:.8})}, // destello CTA
+  final(t){[N.C5,N.E5,N.G5,N.C6,N.E6].forEach((f,i)=>tone({t:t+i*.05,f,dur:2.2,a:.25,g:.02,send:1}))}                                    // acorde de cierre
+ };
+ function cue(n,...a){if(!ctx||!on())return;if(ctx.state!=='running'){ctx.resume&&ctx.resume();return}C[n](ctx.currentTime+.012,...a)}
+ const ramp=v=>{if(!ctx)return;const n=ctx.currentTime;master.gain.cancelScheduledValues(n);master.gain.setTargetAtTime(v,n,.02)};
+ return{cue,
+  toggle(){pref=!pref;ramp(on()?.9:0);return pref},
+  // «Grabar» silencia para una captura limpia; con #audio en la URL se graba con sonido
+  setRec(v){rec=v&&location.hash!=='#audio';ramp(on()?.9:0)},
+  cut(){if(!ctx)return;const n=ctx.currentTime;master.gain.cancelScheduledValues(n);master.gain.setTargetAtTime(0,n,.015);master.gain.setTargetAtTime(on()?.9:0,n+.12,.02)}}})();
+const cue=SND.cue;
+
+// 01 · copias fantasma de la web genérica (clones idénticos de la tarjeta)
+(()=>{const g=document.getElementById('gen');[1,2].forEach(()=>{const c=g.cloneNode(true);c.removeAttribute('id');c.classList.remove('c');c.classList.add('gst');c.setAttribute('aria-hidden','true');g.parentNode.insertBefore(c,g)})})();
+const GH=[...document.querySelectorAll('.gst')];
+// origen de la cámara de cada escena (hacia dónde “mira” el zoom)
+['20% 6%','50% 50%','50% 62%','50% 50%','50% 55%','50% 50%','50% 50%','50% 84%'].forEach((org,i)=>gsap.set(cams[i],{transformOrigin:org}));
+const tl=gsap.timeline({paused:true});
+sc.forEach((s,i)=>{const t=S[i],d=(S[i+1]||END)-t;
+ if(i)tl.to(sc[i-1],{autoAlpha:0,scale:.98,filter:'blur(3px)',duration:.35,ease:'power2.inOut'},t);
+ tl.fromTo(s,{autoAlpha:0,scale:1.02,filter:'blur(3px)'},{autoAlpha:1,scale:1,filter:'blur(0px)',duration:.35,ease:'power2.inOut',...E},t);
+ tl.fromTo(q(i,'.t'),{opacity:0,y:8},{opacity:1,y:0,duration:.85,ease:'expo.out',stagger:.12,...E},t+.1);
+ tl.fromTo(q(i,'.c'),{opacity:0,scale:.96,y:14,filter:'blur(6px)'},{opacity:1,scale:1,y:0,filter:'blur(0px)',duration:.75,ease:'expo.out',stagger:.15,...E},t+.35);
+ const h=o(i,'.hl');if(h)tl.to(h,{backgroundSize:'100% 100%',duration:.7,ease:'power3.out'},t+.9);
+});
+// 01 · zoom lento al titular; la web genérica se atenúa y parpadea como copias iguales; luego aparece la web con DESIGN.md
+tl.fromTo(cams[0],{scale:1},{scale:1.035,duration:5.1,ease:'sine.inOut',...I},S[0]+.3);
+const gf=gsap.timeline();
+gf.fromTo('#gen',{opacity:1},{opacity:.5,duration:.28,ease:'power1.out',...I}).to('#gen',{opacity:1,duration:.1}).to('#gen',{opacity:.72,duration:.08}).to('#gen',{opacity:1,duration:.16}).to('#gen',{opacity:.86,duration:.06}).to('#gen',{opacity:1,duration:.22});
+tl.add(gf,S[0]+1.45);
+GH.forEach((g,k)=>{const a=k?.22:.4,gt=gsap.timeline();
+ gt.fromTo(g,{opacity:0,x:0,y:0},{opacity:a,x:()=>(k+1)*.45*em(),y:()=>(k+1)*.45*em(),duration:.22,ease:'power2.out',...I}).to(g,{opacity:a*.3,duration:.1}).to(g,{opacity:a,duration:.1}).to(g,{opacity:0,x:0,y:0,duration:.55,ease:'power2.in'});
+ tl.add(gt,S[0]+1.4+k*.08)});
+tl.fromTo('#cmB',{opacity:0,y:14,scale:.96,filter:'blur(6px)'},{opacity:1,y:0,scale:1,filter:'blur(0px)',duration:.8,ease:'expo.out',...I},S[0]+2.7);
+// 02 · cámara de arriba abajo + brillo sutil en la píldora lima
+tl.fromTo(cams[1],{yPercent:-3},{yPercent:3,duration:5,ease:'sine.inOut',...I},S[1]+.2);
+tl.fromTo(o(1,'.hl'),{'--g':0},{'--g':1,duration:.6,ease:'sine.out',...I},S[1]+1.7)
+  .fromTo(o(1,'.hl'),{'--g':1},{'--g':.3,duration:1.6,ease:'sine.inOut',...I},S[1]+2.3);
+// 03 · la tarjeta se eleva y flota con sombra suave; zoom lento hacia ella
+const SH0='0 2px 4px rgba(17,17,17,.03),0 18px 40px -10px rgba(17,17,17,.1)',SH1='0 4px 8px rgba(17,17,17,.05),0 34px 54px -14px rgba(17,17,17,.2)';
+tl.fromTo(cams[2],{scale:1},{scale:1.05,duration:5.1,ease:'sine.inOut',...I},S[2]+.2);
+tl.fromTo('#fl',{y:0,boxShadow:SH0},{y:()=>-.45*em(),boxShadow:SH1,duration:1.1,ease:'power2.out',...I},S[2]+1.5)
+  .fromTo('#fl',{y:()=>-.45*em()},{y:()=>-.65*em(),duration:.9,ease:'sine.inOut',yoyo:true,repeat:2,...I},S[2]+2.6);
+// 04 · scroll lento dentro de la ventana del navegador
+let sy=0,st=0,sn=0;
+tl.fromTo('#scr',{y:0},{y:()=>-Math.max(0,scr.offsetHeight-scr.parentNode.offsetHeight),duration:4.4,ease:'power2.inOut',...I,
+ onStart(){sy=0},
+ onUpdate(){const y=Math.abs(gsap.getProperty('#scr','y')),stp=1.1*em(),now=performance.now();
+  if(y-sy>=stp&&now-st>=180){cue('tick',.6+.4*Math.min(1,(y-sy)/(stp*2)),sn++%3-1);sy=y;st=now}}},S[3]+.9);
+// 05 · la tarjeta entra desde abajo y se asienta; la píldora lima late una vez; zoom ligero
+tl.fromTo(cams[4],{scale:1},{scale:1.04,duration:5,ease:'sine.inOut',...I},S[4]+.3);
+tl.fromTo('#kit',{y:()=>6*em(),opacity:0},{y:0,opacity:1,duration:1.2,ease:'power3.out',...I},S[4]+.4);
+gsap.set('#pl',{transformOrigin:'0% 50%'});
+tl.fromTo('#pl',{scale:1,boxShadow:'0 0 0 rgba(217,242,107,0)'},{scale:1.1,boxShadow:'0 0 1em rgba(217,242,107,.9)',duration:.3,ease:'sine.out',yoyo:true,repeat:1,...I},S[4]+1.9);
+// 06 · las líneas del prompt se escriben una tras otra; pequeño zoom al centro
+tl.fromTo(cams[5],{scale:1},{scale:1.05,duration:5,ease:'sine.inOut',...I},S[5]+.3);
+tl.fromTo(q(5,'.ln'),{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)',duration:.9,ease:'steps(24)',stagger:1,...I},S[5]+1.1);
+// 07 · los tres pasos se iluminan en orden (1, 2, 3); cámara casi fija
+tl.fromTo(cams[6],{scale:1},{scale:1.012,duration:5,ease:'sine.inOut',...I},S[6]+.3);
+tl.fromTo(q(6,'.st'),{borderColor:'#E1E3D6',backgroundColor:'#FFFFFF',boxShadow:'0 0 0 rgba(217,242,107,0)'},{borderColor:'#D9F26B',backgroundColor:'#F4FBD6',boxShadow:'0 0 .9em rgba(217,242,107,.55)',duration:.45,ease:'power2.out',stagger:.9,...I},S[6]+1.1)
+  .fromTo(q(6,'.st .num'),{backgroundColor:'#E6EBCB'},{backgroundColor:'#CDEA4E',duration:.45,ease:'power2.out',stagger:.9,...I},S[6]+1.1);
+// 08 · zoom lento hacia la dirección + brillo sutil; todo termina en 43,9 s y se sostiene ~1 s
+tl.fromTo(cams[7],{scale:1},{scale:1.06,duration:4.5,ease:'sine.inOut',...I},S[7]+.9);
+tl.fromTo('#go u',{xPercent:-120,skewX:-18},{xPercent:420,duration:1.1,ease:'power2.inOut',...I},S[7]+2.2);
+tl.fromTo('#go',{boxShadow:'0 0 0 rgba(217,242,107,0)'},{boxShadow:'0 0 1.3em rgba(217,242,107,.85)',duration:.7,ease:'sine.out',...I},S[7]+2.2)
+  .fromTo('#go',{boxShadow:'0 0 1.3em rgba(217,242,107,.85)'},{boxShadow:'0 0 .8em rgba(217,242,107,.4)',duration:1.2,ease:'sine.inOut',...I},S[7]+2.9);
+tl.fromTo('#go span:first-child',{textShadow:'0 0 0 rgba(255,255,255,0)'},{textShadow:'0 0 .5em rgba(255,255,255,.95)',duration:.8,ease:'sine.out',...I},S[7]+2.3);
+
+// ===== Sonido sincronizado con cada animación (tl.call en el mismo instante) =====
+const at=(t,n,...a)=>tl.call(cue,[n,...a],t);
+sc.forEach((s,i)=>{const t=S[i];
+ at(i?t:t+.05,'whoosh',i?1:.6);                                              // transición de escena
+ [...q(i,'.t')].forEach((el,k)=>{const tt=t+.1+k*.12;                         // aparición escalonada
+  if(el.tagName==='H1')at(tt+.1,'reveal');
+  else if(el.classList.contains('chips'))for(let j=0;j<3;j++)at(tt+.06+j*.07,'pill',j)});
+ [...q(i,'.c')].forEach((el,k)=>at(t+.42+k*.15,'card',k?.55:1));              // entrada de tarjetas
+ if(o(i,'.hl'))at(t+.9,'marker')});                                          // subrayado lima
+// 01 · parpadeo de copias (coincide con gf) y resolución al aparecer la web con DESIGN.md
+[1.45,1.83,2.07].forEach((d,k)=>at(S[0]+d,'glitch',k));
+at(S[0]+2.9,'card',1.2);at(S[0]+3.0,'resolve');
+// 02 · brillo de la píldora lima
+at(S[1]+1.7,'glow');
+// 03 · la tarjeta se eleva y se asienta
+at(S[2]+1.5,'lift');at(S[2]+2.55,'card',.4);
+// 05 · el kit desliza desde abajo, se asienta y la píldora late
+at(S[4]+.4,'slide');at(S[4]+1.05,'card',.8);at(S[4]+1.9,'pulse');
+// 06 · escritura línea a línea
+for(let k=0;k<3;k++)at(S[5]+1.1+k,'type',k);
+// 07 · checks 1 · 2 · 3 (sube el tono con cada paso)
+for(let k=0;k<3;k++)at(S[6]+1.1+k*.9,'step',k);
+// 08 · destello sobre la dirección y acorde de cierre (se apaga antes de los últimos 1,1 s)
+at(S[7]+2.2,'shimmer');at(S[7]+2.3,'final');
+tl.set({},{},END);window.tl=tl;
+const bar=document.getElementById('bar'),tm=document.getElementById('tm'),ctl=document.getElementById('ctl'),f=n=>String(Math.floor(n)).padStart(2,'0');
+tl.eventCallback('onUpdate',()=>{const t=tl.time();bar.style.transform='scaleX('+t/END+')';tm.textContent='00:'+f(t)+' / 00:45'});
+tl.eventCallback('onComplete',()=>{ctl.style.display='flex';SND.setRec(false)});
+bp.onclick=()=>{tl.paused(!tl.paused());bp.textContent=tl.paused()?'Seguir':'Pausar'};
+br.onclick=()=>{ctl.style.display='flex';bp.textContent='Pausar';SND.setRec(false);SND.cut();tl.restart()};
+bg.onclick=()=>{ctl.style.display='none';SND.setRec(true);SND.cut();tl.restart()};
+bs.onclick=()=>{bs.classList.toggle('off',!SND.toggle())};
+document.fonts.ready.then(()=>tl.play());
+</script>
+</body></html>
